@@ -11,17 +11,13 @@ describe('authGuard (CanActivateFn)', () => {
   let authStateSubject: BehaviorSubject<any>;
 
   beforeEach(() => {
-    // Criar um BehaviorSubject para controlar o estado de autenticação
     authStateSubject = new BehaviorSubject<any>(null);
-
-    // Mock do AuthService com propriedade getter para authState$
     mockAuthService = {
       get authState$() {
         return authStateSubject.asObservable();
       }
     };
 
-    // Mock do Router
     mockRouter = {
       createUrlTree: jasmine.createSpy('createUrlTree').and.callFake(() => {
         return new UrlTree();
@@ -37,10 +33,8 @@ describe('authGuard (CanActivateFn)', () => {
   });
 
   it('deve retornar "true" se o usuário estiver autenticado', (done) => {
-    // Simula usuário autenticado
     authStateSubject.next({ uid: '123', email: 'test@example.com' });
 
-    // Executar dentro do contexto de injeção do TestBed
     TestBed.runInInjectionContext(() => {
       const result = authGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot);
 
@@ -58,7 +52,6 @@ describe('authGuard (CanActivateFn)', () => {
   });
 
   it('deve redirecionar para /auth/login se o usuário estiver desautenticado', (done) => {
-    // Simula usuário desautenticado
     authStateSubject.next(null);
 
     TestBed.runInInjectionContext(() => {
@@ -85,7 +78,6 @@ describe('authGuard (CanActivateFn)', () => {
 
       if (result instanceof Observable) {
         result.subscribe((guardResult: any) => {
-          // Verifica que não é true (ou seja, é UrlTree para redirecionamento)
           expect(guardResult).not.toBe(true);
           expect(guardResult).toBeInstanceOf(UrlTree);
           done();

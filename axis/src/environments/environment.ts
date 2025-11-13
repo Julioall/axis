@@ -1,6 +1,3 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-
 export const environment = {
   production: false,
   firebase: {
@@ -13,7 +10,3 @@ export const environment = {
     measurementId: "G-F3VZEPF9NR"
   }
 };
-
-// Configuração do Firebase
-// Para usar: substitua os valores acima pelas credenciais do seu projeto Firebase
-// Obtenha essas informações no Firebase Console: https://console.firebase.google.com
