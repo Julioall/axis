@@ -1,4 +1,4 @@
-# Plano de Desenvolvimento (Roadmap) para o Sistema de Gestão de Turmas (SGT)
+# Plano de Desenvolvimento
 
 ## 1. Objetivo do Projeto
 
