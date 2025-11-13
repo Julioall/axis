@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 // Importações do Angular Material
 import { MatCardModule } from '@angular/material/card';
@@ -17,6 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
  */
 export const SHARED_IMPORTS: Type<any>[] = [
   CommonModule,
+  RouterModule,
   ReactiveFormsModule,
   FormsModule,
   MatCardModule,
