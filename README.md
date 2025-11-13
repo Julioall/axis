@@ -2,7 +2,7 @@
 
 ## 1. Objetivo do Projeto
 
-O objetivo deste projeto é desenvolver um **Sistema de Gestão de Turmas (SGT)**, uma aplicação web centralizada, para substituir o atual fluxo de trabalho manual do tutor, que se baseia em planilhas (.xls, .xlsx) e documentos (.pdf). A solução visa otimizar o tempo do tutor, melhorar o acompanhamento dos alunos e garantir a padronização e qualidade das atividades de tutoria, conforme as diretrizes institucionais.
+O objetivo deste projeto é desenvolver um **Sistema de Gestão de Turmas (Axis)**, uma aplicação web centralizada, para substituir o atual fluxo de trabalho manual do tutor, que se baseia em planilhas (.xls, .xlsx) e documentos (.pdf). A solução visa otimizar o tempo do tutor, melhorar o acompanhamento dos alunos e garantir a padronização e qualidade das atividades de tutoria, conforme as diretrizes institucionais.
 
 ## 2. Metodologia
 
