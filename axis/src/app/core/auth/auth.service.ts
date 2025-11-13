@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import firebase from 'firebase/compat/app';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  Auth,
+  User,
+  authState,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from '@angular/fire/auth';
 
 /**
  * Serviço responsável por gerenciar todo o fluxo de autenticação
@@ -17,21 +22,21 @@ export class AuthService {
    * Um observable que emite o estado do usuário (logado ou não).
    * Fundamental para a aplicação reativa.
    */
-  readonly authState$: Observable<firebase.User | null>;
+  readonly authState$: Observable<User | null>;
 
-  private currentUserSubject: BehaviorSubject<firebase.User | null>;
-  public currentUser: Observable<firebase.User | null>;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
 
   constructor(
-    private afAuth: AngularFireAuth,
+    private auth: Auth,
     private router: Router
   ) {
-    this.authState$ = this.afAuth.authState;
-    this.currentUserSubject = new BehaviorSubject<firebase.User | null>(null);
+    this.authState$ = authState(this.auth);
+    this.currentUserSubject = new BehaviorSubject<User | null>(this.auth.currentUser ?? null);
     this.currentUser = this.currentUserSubject.asObservable();
 
     // Sincroniza o usuário atual com o Firebase
-    this.afAuth.authState.subscribe(user => {
+    this.authState$.subscribe(user => {
       this.currentUserSubject.next(user);
     });
   }
@@ -39,7 +44,7 @@ export class AuthService {
   /**
    * Retorna o valor atual do usuário (síncrono)
    */
-  get currentUserValue(): firebase.User | null {
+  get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
@@ -52,7 +57,7 @@ export class AuthService {
    */
   async login(email: string, password: string): Promise<void> {
     try {
-      await this.afAuth.signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(this.auth, email, password);
       // Sucesso: Redireciona para o painel principal
       this.router.navigate(['/dashboard']);
     } catch (error) {
@@ -71,9 +76,10 @@ export class AuthService {
    */
   async register(email: string, password: string): Promise<void> {
     try {
-      const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-      // Opcional: Salvar dados do Tutor/Usuário no Firestore
-      // ex: this.firestore.doc(`users/${credential.user.uid}`).set({ ... });
+      await createUserWithEmailAndPassword(this.auth, email, password);
+      // Opcional: Salvar dados do Tutor/Usuário no Firestore utilizando o usuário atual
+      // ex: const user = this.auth.currentUser;
+      // this.firestore.doc(`users/${user?.uid}`).set({ ... });
 
       // Sucesso: Redireciona para o painel principal
       this.router.navigate(['/dashboard']);
@@ -90,7 +96,7 @@ export class AuthService {
    */
   async logout(): Promise<void> {
     try {
-      await this.afAuth.signOut();
+      await signOut(this.auth);
       this.router.navigate(['/auth/login']);
     } catch (error) {
       console.error("Erro no logout:", error);
