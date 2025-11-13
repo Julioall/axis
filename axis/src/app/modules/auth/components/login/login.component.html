@@ -1,0 +1,50 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <mat-card-title>
+      <img src="/assets/logo-sgt.png" alt="Logo SGT" class="logo">
+      <h3>Login do Tutor</h3>
+    </mat-card-title>
+    
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="tutor@exemplo.com">
+          <mat-error *ngIf="email?.hasError('required')">
+            E-mail é obrigatório
+          </mat-error>
+          <mat-error *ngIf="email?.hasError('email')">
+            Formato de e-mail inválido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" [attr.aria-label]="'Ocultar/Mostrar senha'">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="password?.hasError('required')">
+            Senha é obrigatória
+          </mat-error>
+        </mat-form-field>
+
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <button mat-raised-button color="primary" type="submit" class="w-100 login-button" 
+                [disabled]="loginForm.invalid || isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">Entrar</span>
+        </button>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="auth-footer">
+      <p>Não tem uma conta? <a routerLink="/auth/register">Cadastre-se</a></p>
+    </mat-card-footer>
+  </mat-card>
+</div>

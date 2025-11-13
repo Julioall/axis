@@ -1,0 +1,62 @@
+/* Estilos globais de autenticação (podem ir no styles.scss) */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6; /* Cor de fundo suave */
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.auth-card .mat-card-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.login-button {
+  padding: 10px 0;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estiliza o spinner dentro do botão */
+.login-button mat-spinner {
+  margin: 0;
+}
+
+.error-message {
+  color: #f44336; /* Cor de erro do Material */
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #3f51b5; /* Cor primária do Material */
+  text-decoration: none;
+  font-weight: 500;
+}
