@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { SHARED_IMPORTS } from '../../../../shared/shared.imports';
@@ -18,6 +18,12 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   errorMessage: string | null = null;
   hidePassword = true;
+  isDarkTheme = false;
+
+  @HostBinding('class.dark-theme')
+  get darkThemeClass(): boolean {
+    return this.isDarkTheme;
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -70,5 +76,9 @@ export class LoginComponent implements OnInit {
   // Getters para acesso fácil no template
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
+
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+  }
 }
 

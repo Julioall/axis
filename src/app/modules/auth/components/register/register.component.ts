@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { SHARED_IMPORTS } from '../../../../shared/shared.imports';
@@ -39,6 +39,12 @@ export class RegisterComponent implements OnInit {
   errorMessage: string | null = null;
   hidePassword = true;
   hideConfirmPassword = true;
+  isDarkTheme = false;
+
+  @HostBinding('class.dark-theme')
+  get darkThemeClass(): boolean {
+    return this.isDarkTheme;
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -86,5 +92,9 @@ export class RegisterComponent implements OnInit {
   get email() { return this.registerForm.get('email'); }
   get password() { return this.registerForm.get('password'); }
   get confirmPassword() { return this.registerForm.get('confirmPassword'); }
+
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+  }
 }
 
