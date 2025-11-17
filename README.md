@@ -2,6 +2,36 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
 
+## Arquitetura e organização
+
+- **Standalone + Domain first**: rotas e componentes são standalone. As features vivem em `src/app/modules`, isolando responsabilidades de domínio (ex.: `auth`, `dashboard`).
+- **Cross-cutting**: serviços compartilhados, guards e interceptors ficam em `src/app/core`.
+- **Reutilização**: dependências comuns para componentes ficam em `src/app/shared/shared.imports.ts` (substitui um `SharedModule`).
+- **Configuração**: variáveis de ambiente (ex.: Firebase) residem em `src/environments`. Os providers globais são registrados em `src/app/app.config.ts`.
+- **Rotas**: rotas base em `src/app/app.routes.ts`; cada feature pode expor seu próprio arquivo de rotas (ex.: `modules/auth/auth.routes.ts`) para lazy loading.
+- **HTTP**: interceptors de autenticação e de erros estão em `src/app/core/interceptors`. Prefira manter apenas a versão standalone (`HttpInterceptorFn`) para evitar duplicidade.
+
+```
+src/
+  app/
+    core/                 # Auth, guards, interceptors, serviços cross-cutting
+    modules/
+      auth/               # Fluxos de login/registro (rotas standalone)
+      dashboard/          # Módulo/feature protegida
+    shared/               # Imports compartilhados para componentes standalone
+    app.config.ts         # Providers globais (router, HTTP, Firebase, etc.)
+    app.routes.ts         # Rotas raiz e lazy loading
+  environments/           # Variáveis de ambiente
+```
+
+### Sugestões rápidas de melhoria
+
+- Padronizar todos os arquivos como UTF-8 para evitar caracteres corrompidos nos comentários.
+- Remover as versões baseadas em classe dos interceptors (`HttpInterceptorService`/`ErrorInterceptorService`) e manter apenas os `HttpInterceptorFn`.
+- Criar um diretório `shared/ui` ou `shared/components` para componentes visuais reutilizáveis conforme forem surgindo.
+- Adicionar paths no `tsconfig.json` (`@app/*`, `@core/*`, `@shared/*`) para imports mais limpos.
+- Documentar no README onde configurar as credenciais do Firebase em `src/environments`.
+
 ## Development server
 
 To start a local development server, run:
